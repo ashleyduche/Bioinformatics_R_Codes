@@ -1,0 +1,27 @@
+# Calculate p-values using t-tests
+t_test_pvalues <- function(df, x_var, y_var, ref_group, compare_groups, adjust_method = "none") {
+  # Check if x_var and y_var exist in the dataframe
+  if (!x_var %in% names(df) || !y_var %in% names(df)) {
+    stop("The specified x_var or y_var does not exist in the dataframe.")
+  }
+
+  # Initialize a named vector for p-values
+  p_values <- setNames(numeric(length(compare_groups)), compare_groups)
+
+  # Perform t-tests for each comparison group
+  for (group in compare_groups) {
+    test <- t.test(
+      formula = as.formula(paste(y_var, "~", x_var)),
+      data = df,
+      subset = df[[x_var]] %in% c(ref_group, group)
+    )
+    p_values[group] <- test$p.value
+  }
+
+  # Adjust p-values if specified
+  if (adjust_method != "none") {
+    p_values <- p.adjust(p_values, method = adjust_method)
+  }
+
+  return(p_values)
+}
