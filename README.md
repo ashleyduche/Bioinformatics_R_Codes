@@ -1,18 +1,89 @@
-# Bioinformatics_R_Codes
-Useful `R` functions for efficent data cleaning and statistical analysis with examples provided for clarity.
+### Bioinformatics_R_Codes
+Useful `R` codes and functions for data conversion, cleaning and statistical analysis with examples provided for clarity.
 
-## Available Functions
+### Available Functions
 
-### 1. `format_ttest_summary`
+## 1. `CountsToFPKM`
+R scripts for converting raw gene expression counts to FPKM values. FPKM (Fragments Per Kilobase of transcript per Million mapped reads) is a common method used to normalize RNA-seq count data, accounting for both sequencing depth and gene length. These scripts automate the conversion of raw counts into FPKM values by retrieving gene lengths from Ensembl. A straightforward script for quick processing or a modular script for more complex workflows can be choosen.
+
+## 1.1 CountsToFPKM_Simple.R
+
+This script provides a quick solution for converting raw counts to FPKM values without complex setup.  
+Appropriate for processing a single dataset.
+
+- **Input**: A tab-separated file where:
+  - Rows represent genes (Ensembl gene IDs as row names).
+  - Columns represent samples (sample names as column headers).
+- **Output**: A tab-separated file where:
+  - Rows represent genes.
+  - Columns represent FPKM values for each sample.
+
+## 1.2 CountsToFPKM_Modular.R
+
+This is a more flexible version with separate functions for each step of the pipeline.  
+It’s designed for reuse, modification, or extended workflows.
+
+- **Input**: Same format as above (tab-separated file with gene IDs as rows and samples as columns).
+- **Output**: Same format as above (tab-separated file with FPKM values).
+- **Functions**:
+  - `read_raw_counts`: Reads the input raw counts file.
+  - `get_gene_lengths`: Queries Ensembl for gene lengths using Ensembl gene IDs.
+  - `convert_to_fpkm`: Calculates FPKM values using raw counts and gene lengths.
+  - `run_pipeline`: Main function that runs the entire process.
+
+## Example Input
+
+Example input file (`ROSMAP_DLPFC_Counts.tsv`):
+
+| Gene ID        | Sample_1 | Sample_2 | Sample_3 |
+|----------------|----------|----------|----------|
+| ENSG00000123415| 1500     | 1800     | 1750     |
+| ENSG00000234567| 2300     | 2100     | 2200     |
+| ENSG00000345678| 1100     | 900      | 950      |
+
+- The first column contains Ensembl gene IDs.
+- The remaining columns contain raw counts for each sample.
+
+## Example Output
+
+Example output file (`FPKM_output.tsv`):
+
+| Gene ID        | Sample_1 | Sample_2 | Sample_3 |
+|----------------|----------|----------|----------|
+| ENSG00000123415| 5.23     | 6.14     | 5.90     |
+| ENSG00000234567| 8.45     | 7.85     | 8.11     |
+| ENSG00000345678| 3.25     | 2.89     | 3.01     |
+
+- The output file contains the same genes and samples as the input file.
+- The values represent the calculated FPKM for each gene in each sample.
+
+## Requirements
+
+- **R** (version 4.0 or later)
+- Required libraries: `biomaRt`, `edgeR`
+
+## Usage Instructions
+
+### Running the Simple Script
+
+1. Open `CountsToFPKM_Simple.R`.
+2. Update the following lines with the paths to your input and output files:
+   ```r
+   counts_file <- "path/to/your/ROSMAP_DLPFC_Counts.tsv"
+   output_file <- "path/to/your/FPKM_output.tsv"
+
+
+
+### 2. `format_ttest_summary`
 
 ## Function Overview
 R script for performing indepdendent t-tests on **long-format grouped data** and formatting the results into a structured summary data frame. The function handles cases where groups are specified within a column and values are provided in another column.
 
-### `format_ttest_summary`
+## `format_ttest_summary`
 
 This function performs Student's t-tests for specified group comparisons and outputs a data frame with relevant statistics, including means, standard deviations, degrees of freedom, t-statistics, p-values, exact p-values, 95% confidence intervals, and significance codes.
 
-### Parameters
+## Parameters
 
 - `data`: A data frame containing the input data.
 - `col_name`: The name of the column containing group labels (as a string).
@@ -21,7 +92,7 @@ This function performs Student's t-tests for specified group comparisons and out
   - `group1`: The first group (value in `col_name`) to compare.
   - `group2`: The second group (value in `col_name`) to compare.
 
-### Output
+## Output
 
 The function returns a data frame with the following columns:
 
@@ -89,7 +160,7 @@ print(example_results)
 
 
 
-### 2. `dropNA.R`
+### 3. `dropNA.R`
 
 **Purpose**: Cleans a dataframe by removing columns that have a proportion of missing (NA) values above a specified threshold.
 
@@ -112,7 +183,7 @@ df <- data.frame(
 cleaned_df <- dropNA(df, threshold = 0.3)
 print(cleaned_df)
 ```
-### 3. `filter_df.R`
+### 4. `filter_df.R`
 
 **Purpose**: Filters rows in a dataframe where a specified column matches a given value.
 
@@ -136,7 +207,7 @@ filtered_df <- filter_df(df, column_name = "category", filter_value = "A")
 print(filtered_df)
 ```
 
-### 4. `t_test_pvalues`
+### 5. `t_test_pvalues`
 **Purpose**: Performs pairwise t-tests between a reference group and specified comparison groups. Adjusts p-values for multiple testing if requested.
 
 **Parameters**:
