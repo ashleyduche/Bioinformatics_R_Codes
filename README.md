@@ -112,7 +112,7 @@ df <- data.frame(
 cleaned_df <- dropNA(df, threshold = 0.3)
 print(cleaned_df)
 ```
-### 2. `filter_df.R`
+### 3. `filter_df.R`
 
 **Purpose**: Filters rows in a dataframe where a specified column matches a given value.
 
@@ -136,7 +136,7 @@ filtered_df <- filter_df(df, column_name = "category", filter_value = "A")
 print(filtered_df)
 ```
 
-### 3. `t_test_pvalues`
+### 4. `t_test_pvalues`
 **Purpose**: Performs pairwise t-tests between a reference group and specified comparison groups. Adjusts p-values for multiple testing if requested.
 
 **Parameters**:
