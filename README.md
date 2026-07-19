@@ -1,12 +1,12 @@
-### Bioinformatics_R_Codes
+# Bioinformatics_R_Codes
 Useful `R` codes and functions for data conversion, cleaning and statistical analysis with examples provided for clarity.
 
-### Available Functions
+# Available Functions
 
 ## 1. `CountsToFPKM`
 R scripts for converting raw gene expression counts to FPKM values. FPKM (Fragments Per Kilobase of transcript per Million mapped reads) is a common method used to normalize RNA-seq count data, accounting for both sequencing depth and gene length. These scripts automate the conversion of raw counts into FPKM values by retrieving gene lengths from Ensembl. A straightforward script for quick processing or a modular script for more complex workflows can be choosen.
 
-## 1.1 CountsToFPKM_Simple.R
+### 1.1 CountsToFPKM_Simple.R
 
 This script provides a quick solution for converting raw counts to FPKM values without complex setup.  
 Appropriate for processing a single dataset.
@@ -18,7 +18,7 @@ Appropriate for processing a single dataset.
   - Rows represent genes.
   - Columns represent FPKM values for each sample.
 
-## 1.2 CountsToFPKM_Modular.R
+### 1.2 CountsToFPKM_Modular.R
 
 This is a more flexible version with separate functions for each step of the pipeline.  
 It’s designed for reuse, modification, or extended workflows.
@@ -74,7 +74,7 @@ Example output file (`FPKM_output.tsv`):
 
 
 
-### 2. `format_ttest_summary`
+## 2. `format_ttest_summary`
 
 ## Function Overview
 R script for performing indepdendent t-tests on **long-format grouped data** and formatting the results into a structured summary data frame. The function handles cases where groups are specified within a column and values are provided in another column.
@@ -160,7 +160,7 @@ print(example_results)
 
 
 
-### 3. `dropNA.R`
+## 3. `dropNA.R`
 
 **Purpose**: Cleans a dataframe by removing columns that have a proportion of missing (NA) values above a specified threshold.
 
@@ -183,7 +183,7 @@ df <- data.frame(
 cleaned_df <- dropNA(df, threshold = 0.3)
 print(cleaned_df)
 ```
-### 4. `filter_df.R`
+## 4. `filter_df.R`
 
 **Purpose**: Filters rows in a dataframe where a specified column matches a given value.
 
@@ -207,7 +207,7 @@ filtered_df <- filter_df(df, column_name = "category", filter_value = "A")
 print(filtered_df)
 ```
 
-### 5. `t_test_pvalues`
+## 5. `t_test_pvalues`
 **Purpose**: Performs pairwise t-tests between a reference group and specified comparison groups. Adjusts p-values for multiple testing if requested.
 
 **Parameters**:
