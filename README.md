@@ -3,7 +3,7 @@ Useful `R` codes and functions for data conversion, cleaning and statistical ana
 
 # Available Functions
 
-## 1. `CountsToFPKM`
+## 1. `CountsToFPKM` Overview
 R scripts for converting raw gene expression counts to FPKM values. FPKM (Fragments Per Kilobase of transcript per Million mapped reads) is a common method used to normalize RNA-seq count data, accounting for both sequencing depth and gene length. These scripts automate the conversion of raw counts into FPKM values by retrieving gene lengths from Ensembl. A straightforward script for quick processing or a modular script for more complex workflows can be choosen.
 
 ### 1.1 CountsToFPKM_Simple.R
@@ -31,7 +31,7 @@ It’s designed for reuse, modification, or extended workflows.
   - `convert_to_fpkm`: Calculates FPKM values using raw counts and gene lengths.
   - `run_pipeline`: Main function that runs the entire process.
 
-## Example Input
+### Example Input
 
 Example input file (`ROSMAP_DLPFC_Counts.tsv`):
 
@@ -44,7 +44,7 @@ Example input file (`ROSMAP_DLPFC_Counts.tsv`):
 - The first column contains Ensembl gene IDs.
 - The remaining columns contain raw counts for each sample.
 
-## Example Output
+### Example Output
 
 Example output file (`FPKM_output.tsv`):
 
@@ -57,12 +57,12 @@ Example output file (`FPKM_output.tsv`):
 - The output file contains the same genes and samples as the input file.
 - The values represent the calculated FPKM for each gene in each sample.
 
-## Requirements
+### Requirements
 
 - **R** (version 4.0 or later)
 - Required libraries: `biomaRt`, `edgeR`
 
-## Usage Instructions
+### Usage Instructions
 
 ### Running the Simple Script
 
@@ -74,16 +74,10 @@ Example output file (`FPKM_output.tsv`):
 
 
 
-## 2. `format_ttest_summary`
+## 2. `format_ttest_summary` Overview
+R script for performing indepdendent Student's t-tests on **long-format grouped data** for specified group comparisans and outputs a dataframe with relevant statistics and formatting. This includes the results into a structured summary data frame including means, standard deviations, degrees of freedom, t-statistics, p-values, exact p-values, 95% confidence intervals, and significance codes. The function handles cases where groups are specified within a column and values are provided in another column.
 
-## Function Overview
-R script for performing indepdendent t-tests on **long-format grouped data** and formatting the results into a structured summary data frame. The function handles cases where groups are specified within a column and values are provided in another column.
-
-## `format_ttest_summary`
-
-This function performs Student's t-tests for specified group comparisons and outputs a data frame with relevant statistics, including means, standard deviations, degrees of freedom, t-statistics, p-values, exact p-values, 95% confidence intervals, and significance codes.
-
-## Parameters
+### Parameters
 
 - `data`: A data frame containing the input data.
 - `col_name`: The name of the column containing group labels (as a string).
@@ -92,7 +86,7 @@ This function performs Student's t-tests for specified group comparisons and out
   - `group1`: The first group (value in `col_name`) to compare.
   - `group2`: The second group (value in `col_name`) to compare.
 
-## Output
+### Output
 
 The function returns a data frame with the following columns:
 
@@ -112,7 +106,7 @@ The function returns a data frame with the following columns:
   - `.` for p < 0.1
   - No symbol for p ≥ 0.1
 
-## Example Usage
+### Example Usage
 
 ```r
 # Example long-format data
@@ -138,7 +132,7 @@ example_results <- format_ttest_summary(
 print(example_results)
 ```
 
-## Example Input
+### Example Input
 | prediction | meta_group_A   |
 |------------|----------------|
 | 5.1        | control        |
@@ -148,30 +142,29 @@ print(example_results)
 | 7.2        | experimental   |
 | 6.8        | experimental   |
 
-## Eample Output
+### Eample Output
 | Group_Label   | Mean |  SD  |  df  |   t   |     p      |  exact_p  | Lower | Upper | Significance |
 |---------------|------|------|------|-------|------------|-----------|-------|-------|--------------|
 | control       | 5.10 | 0.16 | 18   | 6.75  | p < 0.001  | 2.45e-05  | 1.2   | 2.5   | ***          |
 | experimental  | 6.94 | 0.21 |      |       |            |           |       |       |              |
 
-## Requirements
+### Requirements
 - R (version 4.0 or later)
 - No additional libraries are required.
 
 
 
-## 3. `dropNA.R`
+## 3. `dropNA.R` Overview
+Cleans a dataframe by removing columns that have a proportion of missing (NA) values above a specified threshold.
 
-**Purpose**: Cleans a dataframe by removing columns that have a proportion of missing (NA) values above a specified threshold.
-
-**Parameters**:
+### Parameters
 - `df`: Input dataframe.
 - `threshold`: Maximum allowed proportion of NA values per column (default = 0.5). Columns exceeding this threshold are dropped.
 
-**Returns**:
+### Returns
 - A cleaned dataframe with only the columns meeting the NA threshold.
 
-**Example**:
+### Example
 ```r
 df <- data.frame(
   col1 = c(1, 2, NA, 4),
@@ -183,19 +176,19 @@ df <- data.frame(
 cleaned_df <- dropNA(df, threshold = 0.3)
 print(cleaned_df)
 ```
-## 4. `filter_df.R`
 
-**Purpose**: Filters rows in a dataframe where a specified column matches a given value.
+## 4. `filter_df.R` Overview
+Filters rows in a dataframe where a specified column matches a given value.
 
-**Parameters**:
+### Parameters
 - `df`: Input dataframe.
 - `column_name`: Name of the column to filter by (character string).
 - `filter_value`: Value to filter on.
   
-**Returns**:
+### Returns
 - A dataframe containing only rows where the column matches the filter value.
-  
-**Example**:
+
+### Example Input
 ```r
 df <- data.frame(
   category = c("A", "B", "A", "C"),
@@ -207,10 +200,10 @@ filtered_df <- filter_df(df, column_name = "category", filter_value = "A")
 print(filtered_df)
 ```
 
-## 5. `t_test_pvalues`
-**Purpose**: Performs pairwise t-tests between a reference group and specified comparison groups. Adjusts p-values for multiple testing if requested.
+## 5. `t_test_pvalues` Overview
+Performs pairwise t-tests between a reference group and specified comparison groups. Adjusts p-values for multiple testing if requested.
 
-**Parameters**:
+### Parameters
 - `df`: Input dataframe.
 - `x_var`: Column containing grouping categories (independent variable).
 - `y_var`: Column containing numerical values to compare (dependent variable).
@@ -218,10 +211,10 @@ print(filtered_df)
 - `compare_groups`: A vector of groups to compare against the reference group.
 - `adjust_method`: Method for p-value adjustment (e.g., "bonferroni", "fdr"). Default is "none".
   
-**`Returns**:
+### `Returns`
 - A named vector of p-values for the comparisons.
   
-**Example**:
+### Example Input
 ```r
 df <- data.frame(
   group = rep(c("Control", "Treatment1", "Treatment2"), each = 10),
