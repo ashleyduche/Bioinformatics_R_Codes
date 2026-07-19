@@ -86,9 +86,8 @@ print(pvals)
 
 # format_ttest_summary
 
-This repository contains an R script for performing indepdendent t-tests on **long-format grouped data** and formatting the results into a structured summary data frame. The function handles cases where groups are specified within a column and values are provided in another column.
-
 ## Function Overview
+R script for performing indepdendent t-tests on **long-format grouped data** and formatting the results into a structured summary data frame. The function handles cases where groups are specified within a column and values are provided in another column.
 
 ### `format_ttest_summary`
 
